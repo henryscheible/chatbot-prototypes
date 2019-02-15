@@ -3,7 +3,34 @@ import torch
 from encoder import Encoder
 from decoder import Decoder 
 from RNNCell import DecoderRNNCell, EncoderRNNCell
+from os import open
 
-def get_embedding(token, emb_path):
+def load_movie_data(data_path):
+    lines = load_movie_lines 
 
-def load_data(data_path):
+def load_movie_lines(movie_lines_path):
+    movie_lines_file = open(movie_lines_path,"r")
+    movie_lines_raw = movie_lines_file.readlines()
+    movie_lines_formatted = {}
+    for line in movie_lines_raw:
+        line_contents = line.split(" +++$+++ ")
+        movie_lines_formatted{line_contents[0]} = line_contents[4]
+    return movie_lines_formatted
+
+def load_movie_conversations(movie_conversations_path):
+    movie_conversations_file = open(movie_conversations_path,"r")
+    movie_conversations_raw = movie_conversations_file.readlines()
+    movie_conversations_formatted = []
+    for conversation in movie_lines_raw:
+        line_contents = line.split(" +++$+++ ")
+        movie_conversations_formatted.append(line_contents[3])
+    
+class Embedder():
+
+
+    def __init__(emb_path):
+        pass
+
+    def __call__(data):
+        
+        return embeddings

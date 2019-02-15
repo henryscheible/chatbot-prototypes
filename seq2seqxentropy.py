@@ -6,7 +6,6 @@ from RNNCell import DecoderRNNCell, EncoderRNNCell
 
 class Seq2SeqXentropy():
     
-    //test the model
     def __init__(self, emb_size, hid_size, output_size)
         super(Seq2SeqXentropy, self).__init__()
         encoder = Encoder(emb_size, hid_size)
