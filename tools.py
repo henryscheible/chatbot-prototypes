@@ -3,10 +3,15 @@ import torch
 from encoder import Encoder
 from decoder import Decoder 
 from RNNCell import DecoderRNNCell, EncoderRNNCell
+from os import path
 from os import open
 
 def load_movie_data(data_path):
-    lines = load_movie_lines 
+    lines = load_movie_lines(path.join(data_path, "movie_lines.txt"))
+    conversations = load_movie_conversations(path.join(data_path, "movie_conversations.txt"))
+    dataset = []
+    for conversation in conversations:
+        dataset = dataset+[conversation[i:i+2] for i in range(len(conversation)-1)]
 
 def load_movie_lines(movie_lines_path):
     movie_lines_file = open(movie_lines_path,"r")
