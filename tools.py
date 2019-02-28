@@ -32,8 +32,9 @@ def load_movie_conversations(movie_conversations_path):
     
 class Embedder():
 
-
     def __init__(emb_path):
+        emb_file = open(emb_path, "r")
+        emb_lines = emb_file.readlines()
         pass
 
     def __call__(data):
