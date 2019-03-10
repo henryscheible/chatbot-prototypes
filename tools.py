@@ -4,31 +4,44 @@ from encoder import Encoder
 from decoder import Decoder 
 from RNNCell import DecoderRNNCell, EncoderRNNCell
 from os import path
+import ast
 
 def load_movie_data(data_path):
     lines = load_movie_lines(path.join(data_path, "movie_lines.txt"))
     conversations = load_movie_conversations(path.join(data_path, "movie_conversations.txt"))
     dataset = []
+    print("formatting data...")
     for conversation in conversations:
+        print("parsing conversation "+str(conversations.index(conversation))+"/"+str(len(conversations)))
         dataset = dataset+[conversation[i:i+2] for i in range(len(conversation)-1)]
-    return dataset
+    print("substituting lines...")
+    subdataset = []
+    for datavector in dataset:
+        print("substituting "+str(dataset.index(datavector))+"/"+str(len(dataset)))
+        subdataset.append([lines[datavector[0]],lines[datavector[1]]])
+    return subdataset
 
 def load_movie_lines(movie_lines_path):
-    movie_lines_file = open(movie_lines_path,"r", encoding="utf-8",errors="replace")
-    movie_lines_raw = movie_lines_file.readlines()
-    movie_lines_formatted = {}
-    for line in movie_lines_raw:
-        line_contents = line.split(" +++$+++ ")
-        movie_lines_formatted[line_contents[0]] = line_contents[4]
+    print("Loading movie lines...")
+    with open(movie_lines_path,"r", encoding="utf-8",errors="replace") as movie_lines_file:
+        movie_lines_raw = movie_lines_file.readlines()
+        print("formatting movie lines...")
+        movie_lines_formatted = {}
+        for line in movie_lines_raw:
+            line_contents = line.split(" +++$+++ ")
+            movie_lines_formatted[line_contents[0]] = line_contents[4]
     return movie_lines_formatted
 
 def load_movie_conversations(movie_conversations_path):
-    movie_conversations_file = open(movie_conversations_path,"r", encoding="utf-8",errors="replace")
-    movie_conversations_raw = movie_conversations_file.readlines()
-    movie_conversations_formatted = []
-    for conversation in movie_conversations_raw:
-        line_contents = conversation.split(" +++$+++ ")
-        movie_conversations_formatted.append(line_contents[3])
+    print("loading movie conversations...")
+    with open(movie_conversations_path,"r", encoding="utf-8",errors="replace") as movie_conversations_file:
+        movie_conversations_raw = movie_conversations_file.readlines()
+        movie_conversations_formatted = []
+        print("formatting movie conversations...")
+        for conversation in movie_conversations_raw:
+            line_contents = conversation.split(" +++$+++ ")
+            lines = ast.literal_eval(line_contents[3])
+            movie_conversations_formatted.append(lines)
     return movie_conversations_formatted
     
 class Embedder():
