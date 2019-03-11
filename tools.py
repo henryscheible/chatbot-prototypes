@@ -5,6 +5,7 @@ from decoder import Decoder
 from RNNCell import DecoderRNNCell, EncoderRNNCell
 from os import path
 import ast
+import sys
 
 def load_movie_data(data_path):
     lines = load_movie_lines(path.join(data_path, "movie_lines.txt"))
@@ -44,6 +45,15 @@ def load_movie_conversations(movie_conversations_path):
             movie_conversations_formatted.append(lines)
     return movie_conversations_formatted
     
+def progressBar(title, value, endvalue, bar_length=20):
+
+        percent = float(value) / endvalue
+        arrow = '-' * int(round(percent * bar_length)-1) + '>'
+        spaces = ' ' * (bar_length - len(arrow))
+
+        sys.stdout.write("\r"+title+": [{0}] {1}%".format(arrow + spaces, round(percent * 100,2)))
+        sys.stdout.flush()
+
 class Embedder():
 
     def __init__(self, emb_path):
