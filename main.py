@@ -7,8 +7,7 @@ print("loading data...")
 print("Serialized Data Path:")
 datapath = input()
 data = pickle.load(open(datapath, "r+b"))
-print("Initializing Embedder...")
-embedder = tools.Embedder("/data/glove/glove.840B.300d.txt")
+
 data_emb=[]
 for datavalue in data:
     print("emb_stat:"+str(data.index(datavalue)))
